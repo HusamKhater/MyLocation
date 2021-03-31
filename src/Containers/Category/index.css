@@ -1,0 +1,54 @@
+.error {
+    font-size: 12px;
+    color: red;
+}
+
+.category {
+    cursor: pointer;
+}
+
+.topbar {
+    display: flex;
+    justify-content: center;
+}
+
+.topbar button {
+    margin-right: 5px;
+    font-size: small;
+}
+
+.topbar.dropdown {
+    width: 200px;
+    display: flex;
+}
+
+.categories-list {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+}
+
+.card {
+    margin: 10px;
+    text-align: left;
+    width: 240 !important;
+}
+
+.card-selected {
+    margin: 10px;
+    text-align: left;
+    background-color: aliceblue;
+    border-color: cadetblue;
+}
+
+.empty {
+    margin-top: 10px;
+}
+
+.title {
+    font-size: 18px;
+}
+
+.subtitle {
+    font-size: 14px;
+}
