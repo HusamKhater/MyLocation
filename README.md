@@ -1,5 +1,5 @@
 # MyLocation
 
-Commands: \n
-start: 'npm start' \n
-build: 'npm run build'
+Commands:  
+Start: 'npm start'  
+Build: 'npm run build'
