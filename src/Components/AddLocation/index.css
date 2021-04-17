@@ -1,0 +1,21 @@
+.user-input {
+    font-size: small;
+    color: darkslategray;
+    margin-bottom: 10px;
+}
+
+.create-category {
+    color: #9a9a00;
+}
+
+.create-category .anticon-warning {
+    margin-right: 5px;
+}
+
+.user-input .label .anticon {
+    margin-left: 5px;
+}
+
+.user-input .label a {
+    margin-left: 5px;
+}

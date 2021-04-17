@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../Components/Header';
 import { Button, Modal, Tooltip, Dropdown, Card, Empty } from 'antd';
-import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined, WarningOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import CategoryDropDown from '../../Components/CategroyDropDown';
+import { getCategories, getLocations } from '../../Utils/utils';
+
 
 const { Meta } = Card;
 
 
 export default function Category(props) {
 
-    const [categories, setCategories] = useState(getCategoriesDefaultState());
+    const [categories, setCategories] = useState(getCategories());
     const [newCatigoryName, setNewCatigoryName] = useState(undefined);
     const [edittedCatigoryName, setEdittedCatigoryName] = useState(undefined);
     const [newError, setNewError] = useState("");
     const [editError, setEditError] = useState("");
     const [selectedCategoryId, setSelectedCategoryId] = useState(undefined);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -29,11 +32,6 @@ export default function Category(props) {
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
-    function getCategoriesDefaultState() {
-        const categories = localStorage.getItem('categories');
-        return categories ? JSON.parse(categories) : [];
-    }
     
     useEffect( () => {
         localStorage.setItem('categories', JSON.stringify(categories));
@@ -95,6 +93,7 @@ export default function Category(props) {
         const filteredCategories = categories.filter((value) => value.id != selectedCategoryId);
         setSelectedCategoryId(undefined);
         setCategories(filteredCategories);
+        setIsDeleteModalVisible(false)
     }
 
     function handleCategorySelect(id) {
@@ -137,6 +136,36 @@ export default function Category(props) {
         </div>
     }
 
+    function showDeleteModal() {
+        setIsDeleteModalVisible(true);
+    }
+
+    const handleDeleteOk = () => {
+        deleteCategory();
+    }
+
+    function handleDeleteCancel() {
+        setIsDeleteModalVisible(false);
+    }
+
+    function getDeleteCategoryModal() {
+        if (isCategoryInUse()) {
+            return <div className='delete-category'>
+                <WarningOutlined />
+                 The selected category is used, Please delete usages first
+            </div>
+        }
+
+        return <div>
+            Are you sure?
+        </div>
+    }
+
+    function isCategoryInUse() {
+        const locations = getLocations();
+        return locations.some(location => location.category == selectedCategoryId);
+    }
+
     return <div className='categroies height'>
         <Header title={'Categories'}/>
 
@@ -170,7 +199,7 @@ export default function Category(props) {
             <Tooltip title="Delete">
                 <Button icon={<DeleteOutlined />} 
                         disabled={selectedCategoryId == undefined} 
-                        onClick={deleteCategory}
+                        onClick={showDeleteModal}
                         danger> 
                     Delete 
                 </Button>
@@ -197,6 +226,15 @@ export default function Category(props) {
                 onCancel={handleCancel}
                 cancelButtonProps={{ style: { display: 'none' } }}>
             <p>{getSelectedCategoryDetails()}</p>
+        </Modal>
+
+        <Modal title='Delete Category'
+                visible={isDeleteModalVisible}
+                onOk={handleDeleteOk}
+                onCancel={handleDeleteCancel}
+                cancelButtonProps={{ style: { display: 'none' } }}
+                okButtonProps={{disabled: isCategoryInUse()}}>
+            <p>{getDeleteCategoryModal()}</p>
         </Modal>
 
         {

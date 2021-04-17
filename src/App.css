@@ -4,6 +4,15 @@
   text-align: center;
 }
 
+.ant-menu {
+  position: fixed;
+  bottom: 0px;
+}
+
+.view {
+  margin: 0 20px;
+}
+
 .height {
   height: 100%;
 }

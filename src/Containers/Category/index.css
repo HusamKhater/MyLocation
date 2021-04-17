@@ -52,3 +52,11 @@
 .subtitle {
     font-size: 14px;
 }
+
+.delete-category {
+    color: #9a9a00;
+}
+
+.delete-category .anticon-warning {
+    margin-right: 5px;
+}
